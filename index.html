@@ -1,11 +1,23 @@
-<html>
-  <head>
-    <title>Logan Lancer</title>
-    <link rel="stylesheet" type="text/css" href="main.css">
-  </head>
-  <body>
-    <h1>Logan Lancer's Personal Website</h1>
-    <h2>This is just a placeholder. Check back later, hopefully for something exciting!</h2>
-    <!--<a href= "main.html"> <p>Page Two</p></a>-->
-  </body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Logan Lancer — Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="projects.html">Projects</a>
+  <a href="files.html">Files</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+<main>
+  <h1>Welcome</h1>
+  <p>This site collects my engineering and software projects. It’s small now but will expand.</p>
+</main>
+<footer>© <span id="y"></span> Logan Lancer</footer>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
 </html>
