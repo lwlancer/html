@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Laser Cutter Conversion — Voxelab Aquila X2</title>
+  <meta name="description" content="Converting a Voxelab Aquila X2 into a diode-laser cutter. Power electronics, PWM conditioning, firmware, results, and next steps." />
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .wrap{max-width:960px;margin:2rem auto;padding:0 1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    figure{margin:0;background:var(--card);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+    figure img{width:100%;height:auto;border-radius:8px}
+    figcaption{font-size:12px;color:#9aa4b2;margin-top:6px}
+    .muted{color:#9aa4b2}
+    .callout{border-left:3px solid var(--acc);padding:10px 12px;background:var(--card);border-radius:8px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:720px){.two{grid-template-columns:1fr}}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+    code,kbd{font-family:ui-monospace,Menlo,monospace}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/index.html">Home</a>
+  <a href="/projects.html">Projects</a>
+  <a href="/files.html">Files</a>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+</nav>
+
+<main class="wrap">
+  <h1>Voxelab Aquila X2 → 450 nm Diode Laser Cutter</h1>
+  <p class="muted">Repurpose a spare 3D printer into a capable cutter. Focus: safe power, correct PWM drive, workable firmware, and real results.</p>
+
+  <section>
+    <h2>Overview</h2>
+    <ul>
+      <li><strong>Donor:</strong> Voxelab Aquila X2 (Ender-3 V2 class)</li>
+      <li><strong>Laser:</strong> LaserTree LT-80W-AA PRO, 450 nm, input TTL 0/3–12 V, 0–5 kHz, 12 V 3 A</li>
+      <li><strong>Power:</strong> Buck set to 12.00 V, 3 A capability, aluminum shroud as supplied</li>
+      <li><strong>Control:</strong> Printer PWM conditioned by a simple RC network to clean TTL</li>
+      <li><strong>Firmware:</strong> Voxelab laser-conversion build for H2 board (repo now offline)</li>
+      <li><strong>Status:</strong> Cutting and solid-line engraving OK; grayscale engraving pending PWM fix</li>
+    </ul>
+    <div class="grid">
+      <figure>
+        <img src="img/01-frame.webp" loading="lazy" alt="Aquila X2 frame during tear-down">
+        <figcaption>Frame teardown and carriage prep.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/02-laser-module.webp" loading="lazy" alt="LaserTree module mounted">
+        <figcaption>LaserTree module in place of the hot end.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/03-buck.webp" loading="lazy" alt="Buck converter wiring">
+        <figcaption>Dedicated buck at 12 V feeding the laser driver.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Build story</h2>
+    <div class="callout">
+      <p>“First, I took an old spare 3D printer I had laying around and began to disassemble it. It was a Voxelab Aquila X2, a cheap knockoff of an Ender-3 V2. It was all I could originally afford and it served me well as a learning bed for 3D printing until I could afford something nicer. However, now it was fated for something more exciting.</p>
+      <p>I ordered a ‘10 W’ laser from a Chinese manufacturer notorious for producing higher-than-rated output lasers and set about replacing the hot end. The module is a 450 nm visible diode, and spoiler alert: it cuts like a dream.</p>
+      <p>I installed a DC-DC buck converter to supply a reliable 3 A. The last wiring step was processing the PWM enable signal, which was trickier than expected. The printer seems to hold both PWM pins at +24 V relative to GND when ‘off’, then pull one to −24 V to simulate PWM, but does not reference board ground. Shorting to ground trips overcurrent. I had never seen PWM generated like this, but after diagnostics I built a simple RC network to invert and step the voltage down while filtering the high-frequency noise in the chip’s PWM.</p>
+      <p>With electronics sorted, I reflashed the board with firmware more appropriate to laser cutting. The board uses an obscure Chinese chip, so this was painful. After all that, I powered up with my laser safety glasses nearly taped to my face and it worked. It WORKED.</p>
+      <p>I did initial test cuts by moving unlocked steppers by hand. Cutting wood with a hand-guided laser was surreal. Then I sent G-code and cut complex patterns. A problem emerged that I’ll detail later, but overall it worked like a charm.</p>
+      <p>I cut my touchmark into wood and leather to dial speed and power. I made leather coasters with initials as gifts. Shaded engraving is not yet reliable because the board’s PWM frequency is far too low. Options: rebuild firmware for higher PWM or replace the controller. A friend offered to help rewire if I order a new board, so the plan is to pivot to a replacement soon.”</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Electronics</h2>
+    <div class="two">
+      <div>
+        <h3>Power path</h3>
+        <ul>
+          <li>Printer 24 V rail → buck → LaserTree driver at 12.00 V (~3 A).</li>
+          <li>Unknown buck model; stock thermal shroud retained.</li>
+        </ul>
+        <h3>PWM conditioning</h3>
+        <ul>
+          <li>Mainboard: Voxelab H2. Observed PWM ≈ 20 Hz, unusual ±24 V swing vs GND.</li>
+          <li>RC network used to invert/attenuate and filter HF noise to a clean TTL enable.</li>
+          <li>Dividers noted as “10 k / 20 k” with C ≈ 10 nF; final values to be verified.</li>
+          <li>All returns referenced to the printer board’s marked supply GND.</li>
+        </ul>
+      </div>
+      <figure>
+        <img src="img/04-pwm-scope.webp" loading="lazy" alt="Oscilloscope capture of board PWM vs conditioned TTL">
+        <figcaption>Scope: raw board PWM vs conditioned TTL. Screenshots to be uploaded.</figcaption>
+      </figure>
+    </div>
+    <p class="muted">Docs will include a full schematic and BOM. See <a href="docs/wiring.md">wiring.md</a> and <a href="docs/bom.csv">bom.csv</a>.</p>
+  </section>
+
+  <section>
+    <h2>Firmware</h2>
+    <ul>
+      <li>Laser-appropriate Voxelab conversion firmware flashed for the H2 MCU.</li>
+      <li>Repository has since disappeared; build notes will be recorded here.</li>
+      <li>Limitation: PWM base frequency too low for grayscale; dithering suffers.</li>
+      <li>Planned remediation: replace controller board with a higher-freq PWM output.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Results</h2>
+    <div class="grid">
+      <figure>
+        <img src="img/05-first-light.webp" loading="lazy" alt="First test cuts">
+        <figcaption>First light: hand-guided cuts to prove optics and power.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/06-touchmark.webp" loading="lazy" alt="Touchmark tests">
+        <figcaption>Touchmark on wood and leather to dial S and F.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/07-coasters.webp" loading="lazy" alt="Leather coasters">
+        <figcaption>Leather coasters with initials. Sealed for waterproofing.</figcaption>
+      </figure>
+    </div>
+    <p>Cutting and solid-line engraving are reliable. Photo-grade engraving pending controller change.</p>
+  </section>
+
+  <section>
+    <h2>Safety and enclosure</h2>
+    <ul>
+      <li>Eyewear: Laservision USA F29.P5P18.5000, OD +8 @ 466 nm.</li>
+      <li>Wooden cabinet enclosure; interior black, exterior blue; external power interrupt with LED enable indicator.</li>
+      <li>Accurate danger labeling. Interlocks and e-stop planned with the board swap.</li>
+      <li>HEPA scrubber adjacent. Air-assist and dedicated exhaust are planned.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Specs and materials</h2>
+    <table>
+      <thead><tr><th>Parameter</th><th>Value</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Wavelength</td><td>450 nm</td><td>confirmed</td></tr>
+        <tr><td>Laser input</td><td>12 V, ~3 A; TTL 0/3–12 V, 0–5 kHz</td><td>manual</td></tr>
+        <tr><td>PWM frequency</td><td>≈ 20 Hz</td><td>observed</td></tr>
+        <tr><td>Bed travel</td><td>Aquila X2 stock</td><td>confirmed</td></tr>
+        <tr><td>Cut recipes</td><td>wood, leather</td><td>to be added</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Next steps</h2>
+    <ol>
+      <li>Select and install a modern controller with higher PWM base frequency.</li>
+      <li>Add interlocks, keyed switch, e-stop, and air-assist plumbing.</li>
+      <li>Publish scope captures, schematic, and finalized RC values.</li>
+      <li>Post engraving test images with settings tables.</li>
+    </ol>
+  </section>
+
+  <footer>© <span id="y"></span> Logan Lancer • <a href="/projects.html">Back to projects</a></footer>
+</main>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>
