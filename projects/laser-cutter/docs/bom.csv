@@ -1,0 +1,8 @@
+Category,Item,Model/Part,Qty,Notes,Status
+Laser,Diode module,LaserTree LT-80W-AA PRO,1,"450 nm; input TTL 0/3–12 V, 0–5 kHz; 12 V 3 A",Confirmed
+Power,Buck converter,Unknown,1,"Set 12.00 V; 3 A capability; stock shroud",Confirmed
+Control,Printer mainboard,Voxelab H2,1,"PWM ≈ 20 Hz; unusual swing vs GND",Confirmed
+Control,PWM RC network,R=?,1,"Approx divider 10k/20k; C≈10 nF; verify",TBD
+Safety,OD eyewear,Laservision F29.P5P18.5000,1,"OD +8 @ 466 nm",Confirmed
+Enclosure,Cabinet,Custom,1,"Black interior, blue exterior, power interrupt+LED",Confirmed
+Misc,Cabling/Connectors,Assorted,1,"Laser power, PWM, e-stop wiring",TBD
