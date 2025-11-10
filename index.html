@@ -2,21 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Logan Lancer — Home</title>
+  <title>Logan Lancer — Engineer | Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Portfolio of engineering builds, software, and self-hosted infrastructure." />
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* page-local tweaks; keeps your site CSS intact */
+    .wrap{max-width:1100px;margin:0 auto;padding:0 1rem}
+    header.hero{padding:5rem 0 2rem}
+    header.hero h1{font-size:clamp(2rem,6vw,3.2rem);margin:0 0 .5rem}
+    header.hero p{max-width:70ch;color:#9aa4b2;margin:0}
+    .cta{margin-top:1rem;display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn{display:inline-block;padding:.6rem .9rem;border:1px solid rgba(255,255,255,.14);border-radius:10px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:2rem 0 3rem}
+    .card{display:block;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;transition:transform .12s ease, border-color .12s ease}
+    .card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.18)}
+    .card h3{margin:.65rem 0 .25rem;font-size:1.05rem}
+    .card p{margin:0;color:#9aa4b2;font-size:.95rem}
+    .icon{width:48px;height:48px;opacity:.9}
+    .mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+    .mini a{font-size:.95rem;border:1px solid rgba(255,255,255,.12);padding:.35rem .6rem;border-radius:999px}
+    footer{margin:3rem 0 2rem;text-align:center;color:#9aa4b2}
+    @media (prefers-reduced-motion: reduce){.card{transition:none}}
+  </style>
 </head>
 <body>
 <nav>
-  <a href="index.html">Home</a>
+  <a href="index.html" aria-current="page">Home</a>
   <a href="projects.html">Projects</a>
   <a href="files.html">Files</a>
   <a href="about.html">About</a>
   <a href="contact.html">Contact</a>
 </nav>
-<main>
-  <h1>Home Page</h1>
-  <p>This site collects my engineering and software projects. It’s small now but will expand.</p>
+
+<main class="wrap">
+  <header class="hero">
+    <h1>Logan Lancer</h1>
+    <p>Hands-on engineering. Metalwork, lasers, embedded, self-hosted infra, and applied ML. This site is a fast index to builds and write-ups.</p>
+    <div class="cta">
+      <a class="btn" href="projects.html">View all projects</a>
+      <a class="btn" href="/files.html">Public files</a>
+      <a class="btn" href="/about.html">About</a>
+    </div>
+  </header>
+
+  <!-- Primary navigation grid -->
+  <section aria-labelledby="quick-nav">
+    <h2 id="quick-nav" class="muted" style="margin:0 0 .5rem">Quick navigation</h2>
+    <div class="grid">
+
+      <a class="card" href="/projects/laser-cutter.html">
+        <!-- laser icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h9M12 12l8-8M12 12l8 8M12 12l-8-8M12 12l-8 8" stroke-width="1.5"/><circle cx="12" cy="12" r="2" stroke-width="1.5"/></svg>
+        <h3>Laser Cutter Conversion</h3>
+        <p>Voxelab Aquila X2 → 450 nm diode cutter. Power, PWM conditioning, firmware, results.</p>
+      </a>
+
+      <a class="card" href="/projects/network-stack/index.html">
+        <!-- network icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke-width="1.5"/><rect x="8.5" y="14" width="7" height="7" rx="1.5" stroke-width="1.5"/><path d="M6.5 10v2.5h11V10" stroke-width="1.5"/></svg>
+        <h3>Proxmox Cluster & Network</h3>
+        <p>Arrakis datacenter. Cloudflare Tunnel → Apache, VPN, LLM, media, and services.</p>
+      </a>
+
+      <a class="card" href="/projects/jewelry.html">
+        <!-- ring icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><ellipse cx="12" cy="16" rx="7" ry="4.5" stroke-width="1.5"/><path d="M9 8l3-3 3 3" stroke-width="1.5"/></svg>
+        <h3>Jewelry & Metalwork</h3>
+        <p>Casting, homemade gemstones, tools, fixtures, and finishes.</p>
+      </a>
+
+      <a class="card" href="/projects/electric-motorcycle.html">
+        <!-- bike icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="6" cy="16" r="3.5" stroke-width="1.5"/><circle cx="18" cy="16" r="3.5" stroke-width="1.5"/><path d="M9.5 16h5M12 8h5l2 4" stroke-width="1.5"/></svg>
+        <h3>Electric Motorcycle</h3>
+        <p>Design study. 100 mi range target and 100 mph class hardware planning.</p>
+      </a>
+
+      <a class="card" href="/files.html">
+        <!-- files icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 3h6l4 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" stroke-width="1.5"/><path d="M13 3v5h5" stroke-width="1.5"/></svg>
+        <h3>Files & Docs</h3>
+        <p>Reference PDFs, drawings, wiring notes, and data sheets.</p>
+      </a>
+
+      <a class="card" href="/about.html">
+        <!-- user icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="3" stroke-width="1.5"/><path d="M5 20a7 7 0 0 1 14 0" stroke-width="1.5"/></svg>
+        <h3>About</h3>
+        <p>Background, skills, and contact.</p>
+      </a>
+
+      <a class="card" href="/contact.html">
+        <!-- mail icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" stroke-width="1.5"/><path d="M3 7l9 6 9-6" stroke-width="1.5"/></svg>
+        <h3>Contact</h3>
+        <p>Reach out for collaboration or roles.</p>
+      </a>
+
+      <a class="card" href="/projects.html">
+        <!-- grid icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="4" width="6" height="6" stroke-width="1.5"/><rect x="14" y="4" width="6" height="6" stroke-width="1.5"/><rect x="4" y="14" width="6" height="6" stroke-width="1.5"/><rect x="14" y="14" width="6" height="6" stroke-width="1.5"/></svg>
+        <h3>All Projects</h3>
+        <p>Browse everything in one place.</p>
+      </a>
+
+    </div>
+
+    <!-- small quick-links row -->
+    <div class="mini">
+      <a href="/projects/laser-cutter.html">Laser build log</a>
+      <a href="/projects/network-stack/index.html">Network stack</a>
+      <a href="/files.html">Datasheets</a>
+      <a href="/about.html">Resume</a>
+    </div>
+  </section>
 </main>
+
 <footer>© <span id="y"></span> Logan Lancer</footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
