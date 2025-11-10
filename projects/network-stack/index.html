@@ -30,7 +30,7 @@
 
 <main class="wrap">
   <h1>Network Stack</h1>
-  <p class="muted">Arrakis datacenter: quorate, up to date. External access via Cloudflare Tunnel to Apache origin.</p>
+  <p class="muted">Arrakis Datacenter: the server hosting this website! And a couple of other things:</p>
 
   <section>
     <h2>Arrakis Datacenter Architecture</h2>
@@ -60,23 +60,23 @@ Ports: 7575/tcp      25565/tcp     11434/tcp           TBD                 51820
     <h2>Node and Service Roles</h2>
     <p><strong>LETOII</strong> — Primary host for user-facing dashboards and entertainment services.</p>
     <ul>
-      <li><strong>VM 103 “bellonda”</strong> — Runs <em>Homarr</em>, the main web dashboard for system health, service links, and status indicators. It aggregates information from Prometheus and custom endpoints.</li>
-      <li><strong>VM 501 “teg”</strong> — Dedicated <em>Minecraft server</em>. Serves a persistent survival world for testing networking performance, container isolation, and backup workflows.</li>
+      <li><strong>VM 103 “bellonda”</strong> — Runs <em>Homarr</em>, the main web dashboard for system health, service links, and status indicators for my personal use.</li>
+      <li><strong>VM 501 “teg”</strong> — Dedicated <em>Minecraft server</em>. Serves a persistent survival world for my friends and I. </li>
     </ul>
 
     <p><strong>ALIA</strong> — AI and voice compute node for local models and inference.</p>
     <ul>
-      <li><strong>LXC 999 “murbella”</strong> — Hosts the <em>Ollama LLM</em> stack. Provides text generation APIs used by internal tools and the planned website chatbot interface.</li>
+      <li><strong>LXC 999 “murbella”</strong> — Hosts the <em>Ollama LLM</em> stack. Provides text generation APIs used by internal tools and hopefully soon my smart home system.</li>
       <li><strong>LXC 909 “siona”</strong> — Reserved for <em>Piper</em> (TTS) and <em>Whisper</em> (STT). Will handle local voice synthesis and transcription when linked with Ollama and the dashboard.</li>
     </ul>
 
     <p><strong>GHANIMA</strong> — Networking and public gateway node.</p>
     <ul>
-      <li><strong>LXC 102 “lucilla”</strong> — Runs <em>WireGuard</em>, providing secure access to the entire LAN and Proxmox network over a lightweight VPN tunnel.</li>
-      <li><strong>LXC 301 “sheeana”</strong> — Hosts <em>Apache</em> for static site delivery and <em>cloudflared</em> for outbound tunneling to Cloudflare. It acts as the public entry point for all web traffic.</li>
+      <li><strong>LXC 102 “lucilla”</strong> — Runs <em>WireGuard</em>, providing secure access to the entire LAN and Proxmox network over a lightweight VPN tunnel. May switch this to a cloudflare solution soon, but WireGuard has just never let me down.</li>
+      <li><strong>LXC 301 “sheeana”</strong> — Hosts <em>Apache</em> for static site delivery and <em>cloudflared</em> for outbound tunneling to Cloudflare. Where this website lives!</li>
     </ul>
 
-    <p><strong>Datacenter orchestration</strong> — The <em>Arrakis</em> cluster handles HA quorum, local backups, and monitoring. All nodes share the same storage backend and internal bridge (vmbr0). Each LXC or VM can communicate securely across the internal VLAN without touching the router.</p>
+    <p><strong>Datacenter orchestration</strong> — The <em>Arrakis</em> cluster handles HA quorum, local backups, and monitoring. Each LXC or VM can communicate securely across the internal VLAN without touching the router. </p>
   </section>
   
   <section>
