@@ -1,78 +1,178 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proxmox Cluster & Network Stack</title>
+  <meta charset="utf-8">
+  <title>Homelab Network Stack — Proxmox</title>
+  <meta name="description" content="Topology, services, DNS, Cloudflare Tunnel, and Apache details for the homelab." />
   <link rel="stylesheet" href="/style.css">
+  <style>
+    .wrap{max-width:1100px;margin:2rem auto;padding:0 1rem}
+    pre,code{font-family:ui-monospace,Menlo,monospace}
+    pre{background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.08);overflow:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.55rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+    .muted{color:#9aa4b2}
+    details{background:var(--card);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.08);margin:.75rem 0}
+    summary{cursor:pointer;font-weight:600}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+    .ok{color:#8ef58e}.warn{color:#ffd166}.bad{color:#ff6b6b}
+    .tag{font-size:12px;border:1px solid rgba(255,255,255,.15);padding:2px 6px;border-radius:999px}
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Proxmox Cluster & Network Stack</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/projects.html">Projects</a>
-    </nav>
-  </header>
+<nav>
+  <a href="/index.html">Home</a>
+  <a href="/projects.html">Projects</a>
+  <a href="/files.html">Files</a>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+</nav>
 
-  <main>
-    <section>
-      <h2>Overview</h2>
-      <p>
-        This network stack powers all my self-hosted projects—from virtual machines to AI models and media servers. 
-        It’s built around a Proxmox VE cluster with multiple lightweight Linux containers running specialized services.
-      </p>
-    </section>
+<main class="wrap">
+  <h1>Network Stack — Proxmox & Services</h1>
+  <p class="muted">External access now flows through Cloudflare Tunnel to an Apache web LXC. No inbound ports or router forwards required. Internal apps remain on the LAN.</p>
 
-    <section>
-      <h2>Core Services</h2>
-      <ul>
-        <li><strong>Proxmox Cluster:</strong> Central virtualization environment managing all containers and VMs.</li>
-        <li><strong>Apache Webserver:</strong> Hosts this site and project documentation.</li>
-        <li><strong>Cloudflare Tunnel:</strong> Provides secure, resilient external access without open inbound ports.</li>
-        <li><strong>Home Monitoring:</strong> Grafana and Prometheus track resource usage across the cluster.</li>
-        <li><strong>Media Stack:</strong> Jellyfin streams personal media throughout the network.</li>
-        <li><strong>LLM Stack:</strong> Local Ollama instance and Piper/Whisper containers for voice interaction.</li>
-        <li><strong>Game Server:</strong> Self-hosted Minecraft world for testing performance and networking.</li>
-        <li><strong>VPN and Proxy Layer:</strong> OpenVPN and SOCKS5 for secure internal routing and external testing.</li>
-      </ul>
-    </section>
+  <section>
+    <h2>High-level topology</h2>
+    <pre>
+Visitors ─► Cloudflare Edge (Anycast TLS)
+              │  (Tunnel)
+              ▼
+          cloudflared (LXC)
+              │  HTTP :80
+              ▼
+        Apache origin (192.168.1.5)
+              │
+     Proxmox Host GHANIMA (vmbr0)
+              │
+            Router/GW 192.168.1.1
+    </pre>
+    <div class="grid">
+      <div>
+        <h3>Key addresses</h3>
+        <table>
+          <tr><th>Router/GW</th><td>192.168.1.1</td></tr>
+          <tr><th>Proxmox host</th><td>192.168.1.33 (vmbr0)</td></tr>
+          <tr><th>Web LXC</th><td>192.168.1.5 (Apache + cloudflared)</td></tr>
+          <tr><th>Domains</th><td>loganlancer.com, www.loganlancer.com</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>DNS (Cloudflare)</h3>
+        <table>
+          <tr><th>Type</th><th>Name</th><th>Value</th><th>Proxy</th></tr>
+          <tr><td>CNAME</td><td>@</td><td>CF tunnel UUID target</td><td>Proxied</td></tr>
+          <tr><td>CNAME</td><td>www</td><td>CF tunnel UUID target</td><td>Proxied</td></tr>
+          <tr><td class="muted" colspan="4">Nameservers: Cloudflare. No AAAA unless you serve v6 internally.</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
 
-    <section>
-      <h2>Recent Upgrades</h2>
-      <ul>
-        <li>Replaced direct HTTPS with a Cloudflare Tunnel for reliable access through NAT and CGNAT.</li>
-        <li>Moved DNS management to Cloudflare for automatic certificate provisioning and routing.</li>
-        <li>Rebuilt the webserver using Apache inside a clean Ubuntu LXC.</li>
-        <li>Stabilized Proxmox bridge networking and LXC configurations.</li>
-      </ul>
-    </section>
+  <section>
+    <h2>Service inventory</h2>
+    <table>
+      <thead><tr><th>Service</th><th>LXC/Host</th><th>LAN</th><th>Ports</th><th>Exposure</th><th>Auth</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Web gateway (Apache)</td><td>web LXC</td><td>192.168.1.5</td><td>80 (origin)</td><td>Public via Cloudflare Tunnel</td><td>CF TLS at edge</td><td class="ok">OK</td></tr>
+        <tr><td>Cloudflare Tunnel</td><td>web LXC</td><td>192.168.1.5</td><td>443 outbound only</td><td>Public front-door</td><td>CF account</td><td class="ok">OK</td></tr>
+        <tr><td>OpenVPN</td><td>openvpn</td><td>192.168.1.x</td><td>1194/UDP</td><td>Private (or separate tunnel)</td><td>Certs</td><td class="tag">fill IP</td></tr>
+        <tr><td>Homarr</td><td>homarr</td><td>192.168.1.x</td><td>7575/TCP</td><td>Private / optional subdomain via tunnel</td><td>App auth</td><td class="tag">fill IP</td></tr>
+        <tr><td>Minecraft</td><td>minecraft</td><td>192.168.1.x</td><td>25565/TCP</td><td>Optional (direct/NAT or tunnel)</td><td>Whitelist</td><td class="tag">fill IP</td></tr>
+        <tr><td>SOCKS5 proxy</td><td>socks5</td><td>192.168.1.x</td><td>1080/TCP</td><td>Private</td><td>User/pass or IP ACL</td><td class="tag">fill IP</td></tr>
+        <tr><td>Jellyfin</td><td>jellyfin</td><td>192.168.1.x</td><td>8096/HTTP, 8920/HTTPS</td><td>Private / optional subdomain via tunnel</td><td>App auth</td><td class="tag">fill IP</td></tr>
+        <tr><td>Ollama</td><td>ollama</td><td>192.168.1.x</td><td>11434/TCP</td><td>Private / optional subdomain via tunnel</td><td>Network ACL</td><td class="tag">fill IP</td></tr>
+        <tr><td>Piper + Whisper</td><td>voice</td><td>192.168.1.x</td><td>TBD</td><td>Private; gRPC/HTTP to LLM</td><td>Network ACL</td><td class="warn">Planned</td></tr>
+      </tbody>
+    </table>
+  </section>
 
-    <section>
-      <h2>Future Plans</h2>
-      <ul>
-        <li>Container orchestration for auto-recovery and scaling.</li>
-        <li>Centralized logging with Loki and Promtail.</li>
-        <li>Custom dashboard displaying live cluster health directly on this site.</li>
-      </ul>
-    </section>
+  <section>
+    <h2>Origin & tunnel config</h2>
+    <p class="muted">Origin stays HTTP-only. Cloudflare handles TLS and redirects.</p>
+<details open><summary>Apache vhost (origin HTTP only)</summary>
+<pre>&lt;VirtualHost *:80&gt;
+  ServerName loganlancer.com
+  ServerAlias www.loganlancer.com
+  DocumentRoot /var/www/html
+  # No HTTPS redirects here; CF edge enforces HTTPS.
+&lt;/VirtualHost&gt;
+</pre>
+</details>
+<details><summary>Cloudflared (CLI/YAML pattern)</summary>
+<pre>tunnel: webgw
+credentials-file: /root/.cloudflared/webgw.json
+ingress:
+  - hostname: loganlancer.com
+    service: http://localhost:80
+  - hostname: www.loganlancer.com
+    service: http://localhost:80
+  - service: http_status:404
+</pre>
+</details>
+  </section>
 
-    <section>
-      <h2>Documentation and Gallery</h2>
-      <p>Photos and diagrams will be added soon. Planned visuals include:</p>
-      <ul>
-        <li>Rack or workspace photo showing the physical node hardware.</li>
-        <li>Network diagram: router → Proxmox host → LXCs/VMs → Cloudflare.</li>
-        <li>Screenshot of the Proxmox dashboard with LXC list.</li>
-        <li>Grafana resource graph showing CPU/RAM/network usage over time.</li>
-        <li>Shell snippet or screenshot of Apache and Cloudflare services running successfully.</li>
-        <li>Diagram showing logical data flow (LAN clients vs Cloudflare visitors).</li>
-      </ul>
-    </section>
-  </main>
+  <section>
+    <h2>Router/NAT and firewall</h2>
+    <div class="grid">
+      <div>
+        <h3>Router</h3>
+        <pre># With Cloudflare Tunnel:
+# No inbound port forwards required.
+# Keep outbound 443 open for the LXC (cloudflared).
+</pre>
+      </div>
+      <div>
+        <h3>Proxmox/PVE</h3>
+        <pre>pve-firewall status
+# Web LXC can run with firewall off, or allow :80 inbound from vmbr0 only.
+</pre>
+      </div>
+      <div>
+        <h3>LXC UFW</h3>
+        <pre># on web LXC
+ufw allow 80/tcp     # origin
+# outbound 443 is default-allowed on most setups
+</pre>
+      </div>
+    </div>
+  </section>
 
-  <footer>
-    <p>© 2025 Logan Lancer</p>
-  </footer>
+  <section>
+    <h2>Operations</h2>
+    <details open><summary>Health checks</summary>
+      <pre># Apache origin
+systemctl status apache2 --no-pager
+curl -I http://127.0.0.1
+
+# Cloudflared
+systemctl status cloudflared --no-pager
+journalctl -u cloudflared -n 100 --no-pager
+
+# External verification
+dig +short loganlancer.com @1.1.1.1   # expect Cloudflare anycast IPs
+curl -I https://loganlancer.com
+</pre>
+    </details>
+    <details><summary>Notes</summary>
+      <pre># TLS, redirects, and www/non-www canonicals are handled at Cloudflare.
+# Origin SSL vhosts (certbot) are disabled to avoid redirect loops.
+</pre>
+    </details>
+  </section>
+
+  <section>
+    <h2>TODO / fill-ins</h2>
+    <ul>
+      <li>Record LAN IPs for OpenVPN, Homarr, Minecraft, SOCKS5, Jellyfin, Ollama, Piper/Whisper.</li>
+      <li>Add optional subdomains via the tunnel (dash, media, ai, voice) with Cloudflare access rules.</li>
+      <li>Add auth in front of admin UIs (Cloudflare Access or basic auth at origin).</li>
+      <li>Add Grafana/Promtail/Loki for logs and publish a read-only dashboard.</li>
+    </ul>
+  </section>
+
+  <footer class="muted">© <span id="y"></span> Logan Lancer • <a href="/projects.html">Back to projects</a></footer>
+</main>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
 </html>
