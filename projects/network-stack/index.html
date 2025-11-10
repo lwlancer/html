@@ -1,203 +1,78 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Homelab Network Stack — Proxmox</title>
-  <meta name="description" content="Topology, services, routing, DNS, firewall, and reverse-proxy details for the homelab." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proxmox Cluster & Network Stack</title>
   <link rel="stylesheet" href="/style.css">
-  <style>
-    .wrap{max-width:1100px;margin:2rem auto;padding:0 1rem}
-    pre,code{font-family:ui-monospace,Menlo,monospace}
-    pre{background:var(--card);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.08);overflow:auto}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:.55rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
-    .muted{color:#9aa4b2}
-    details{background:var(--card);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.08);margin:.75rem 0}
-    summary{cursor:pointer;font-weight:600}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-    .ok{color:#8ef58e}.warn{color:#ffd166}.bad{color:#ff6b6b}
-    .tag{font-size:12px;border:1px solid rgba(255,255,255,.15);padding:2px 6px;border-radius:999px}
-  </style>
 </head>
 <body>
-<nav>
-  <a href="/index.html">Home</a>
-  <a href="/projects.html">Projects</a>
-  <a href="/files.html">Files</a>
-  <a href="/about.html">About</a>
-  <a href="/contact.html">Contact</a>
-</nav>
+  <header>
+    <h1>Proxmox Cluster & Network Stack</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/projects.html">Projects</a>
+    </nav>
+  </header>
 
-<main class="wrap">
-  <h1>Network Stack — Proxmox & Services</h1>
-  <p class="muted">Live web gateway plus internal apps: OpenVPN, Homarr, Minecraft, SOCKS5 proxy, Jellyfin, Ollama, and planned Piper/Whisper voice stack.</p>
+  <main>
+    <section>
+      <h2>Overview</h2>
+      <p>
+        This network stack powers all my self-hosted projects—from virtual machines to AI models and media servers. 
+        It’s built around a Proxmox VE cluster with multiple lightweight Linux containers running specialized services.
+      </p>
+    </section>
 
-  <section>
-    <h2>High-level topology</h2>
-    <pre>
-Internet (Public)       Router/NAT             Proxmox Host (GHANIMA)                     LXCs/VMs
-144.91.219.231  ──►  TCP 80/443 ► 192.168.1.4  vmbr0 ─ enp2s0f2 ─ veth*  ─►  webgw (Caddy) 192.168.1.4
-                                                 └──────────────────────►  openvpn          192.168.1.x
-                                                 └──────────────────────►  homarr           192.168.1.x
-                                                 └──────────────────────►  minecraft        192.168.1.x
-                                                 └──────────────────────►  socks5           192.168.1.x
-                                                 └──────────────────────►  jellyfin         192.168.1.x
-                                                 └──────────────────────►  ollama           192.168.1.x
-                                                 └──────────────────────►  piper+whisper    192.168.1.x (planned)
-    </pre>
-    <div class="grid">
-      <div>
-        <h3>Key addresses</h3>
-        <table>
-          <tr><th>Public IP</th><td>144.91.219.231</td></tr>
-          <tr><th>Router/GW</th><td>192.168.1.1</td></tr>
-          <tr><th>Proxmox host</th><td>192.168.1.33 (vmbr0)</td></tr>
-          <tr><th>Web LXC</th><td>192.168.1.4 (sheeana)</td></tr>
-        </table>
-      </div>
-      <div>
-        <h3>DNS</h3>
-        <table>
-          <tr><th>Type</th><th>Name</th><th>Value</th></tr>
-          <tr><td>A</td><td>@</td><td>144.91.219.231</td></tr>
-          <tr><td>A</td><td>www</td><td>144.91.219.231</td></tr>
-          <tr><td class="muted" colspan="3">Optional subdomains below if you choose to expose.</td></tr>
-        </table>
-      </div>
-    </div>
-  </section>
+    <section>
+      <h2>Core Services</h2>
+      <ul>
+        <li><strong>Proxmox Cluster:</strong> Central virtualization environment managing all containers and VMs.</li>
+        <li><strong>Apache Webserver:</strong> Hosts this site and project documentation.</li>
+        <li><strong>Cloudflare Tunnel:</strong> Provides secure, resilient external access without open inbound ports.</li>
+        <li><strong>Home Monitoring:</strong> Grafana and Prometheus track resource usage across the cluster.</li>
+        <li><strong>Media Stack:</strong> Jellyfin streams personal media throughout the network.</li>
+        <li><strong>LLM Stack:</strong> Local Ollama instance and Piper/Whisper containers for voice interaction.</li>
+        <li><strong>Game Server:</strong> Self-hosted Minecraft world for testing performance and networking.</li>
+        <li><strong>VPN and Proxy Layer:</strong> OpenVPN and SOCKS5 for secure internal routing and external testing.</li>
+      </ul>
+    </section>
 
-  <section>
-    <h2>Service inventory</h2>
-    <table>
-      <thead><tr><th>Service</th><th>LXC/Host</th><th>LAN</th><th>Ports</th><th>Exposure</th><th>Auth</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>Web gateway (Caddy)</td><td>sheeana</td><td>192.168.1.4</td><td>80, 443</td><td>Public via A @/www</td><td>None (static)</td><td class="ok">OK</td></tr>
-        <tr><td>OpenVPN</td><td>openvpn</td><td>192.168.1.x</td><td>1194/UDP</td><td>Optional public (port-forward)</td><td>Certs</td><td class="tag">fill IP</td></tr>
-        <tr><td>Homarr</td><td>homarr</td><td>192.168.1.x</td><td>7575/TCP</td><td>Private; link via VPN or reverse-proxy</td><td>App auth</td><td class="tag">fill IP</td></tr>
-        <tr><td>Minecraft</td><td>minecraft</td><td>192.168.1.x</td><td>25565/TCP</td><td>Optional public (port-forward)</td><td>Whitelist</td><td class="tag">fill IP</td></tr>
-        <tr><td>SOCKS5 proxy</td><td>socks5</td><td>192.168.1.x</td><td>1080/TCP</td><td>Private only</td><td>User/pass or IP ACL</td><td class="tag">fill IP</td></tr>
-        <tr><td>Jellyfin</td><td>jellyfin</td><td>192.168.1.x</td><td>8096/HTTP, 8920/HTTPS</td><td>Private; optional subdomain</td><td>App auth</td><td class="tag">fill IP</td></tr>
-        <tr><td>Ollama</td><td>ollama</td><td>192.168.1.x</td><td>11434/TCP</td><td>Private; proxy if needed</td><td>Network ACL</td><td class="tag">fill IP</td></tr>
-        <tr><td>Piper + Whisper</td><td>voice</td><td>192.168.1.x</td><td>TBD</td><td>Private; gRPC/HTTP to LLM</td><td>Network ACL</td><td class="warn">Planned</td></tr>
-      </tbody>
-    </table>
-  </section>
+    <section>
+      <h2>Recent Upgrades</h2>
+      <ul>
+        <li>Replaced direct HTTPS with a Cloudflare Tunnel for reliable access through NAT and CGNAT.</li>
+        <li>Moved DNS management to Cloudflare for automatic certificate provisioning and routing.</li>
+        <li>Rebuilt the webserver using Apache inside a clean Ubuntu LXC.</li>
+        <li>Stabilized Proxmox bridge networking and LXC configurations.</li>
+      </ul>
+    </section>
 
-  <section>
-    <h2>Reverse-proxy map (Caddy)</h2>
-    <p class="muted">Expose only what you intend. Keep private by omitting DNS and proxy blocks.</p>
-<details open><summary>Examples (add to <code>/etc/caddy/Caddyfile</code>)</summary>
-<pre>
-# Static site (already live)
-loganlancer.com, www.loganlancer.com {
-  root * /var/www/main
-  encode zstd gzip
-  file_server
-}
+    <section>
+      <h2>Future Plans</h2>
+      <ul>
+        <li>Container orchestration for auto-recovery and scaling.</li>
+        <li>Centralized logging with Loki and Promtail.</li>
+        <li>Custom dashboard displaying live cluster health directly on this site.</li>
+      </ul>
+    </section>
 
-# Optional app subdomains (enable one at a time; set DNS first)
-vpn.loganlancer.com {
-  reverse_proxy 192.168.1.X:1194    # if you terminate OpenVPN via TCP+Web, otherwise port-forward 1194/UDP
-}
+    <section>
+      <h2>Documentation and Gallery</h2>
+      <p>Photos and diagrams will be added soon. Planned visuals include:</p>
+      <ul>
+        <li>Rack or workspace photo showing the physical node hardware.</li>
+        <li>Network diagram: router → Proxmox host → LXCs/VMs → Cloudflare.</li>
+        <li>Screenshot of the Proxmox dashboard with LXC list.</li>
+        <li>Grafana resource graph showing CPU/RAM/network usage over time.</li>
+        <li>Shell snippet or screenshot of Apache and Cloudflare services running successfully.</li>
+        <li>Diagram showing logical data flow (LAN clients vs Cloudflare visitors).</li>
+      </ul>
+    </section>
+  </main>
 
-dash.loganlancer.com {
-  reverse_proxy 192.168.1.X:7575    # Homarr
-  header { Strict-Transport-Security "max-age=31536000; includeSubDomains" }
-  basicauth /* {                          # optional extra guard
-    {$DASH_USER} {$DASH_PASS_HASH}
-  }
-}
-
-media.loganlancer.com {
-  reverse_proxy 192.168.1.X:8096    # Jellyfin HTTP
-}
-
-ai.loganlancer.com {
-  reverse_proxy 192.168.1.X:11434   # Ollama API
-}
-
-voice.loganlancer.com {
-  reverse_proxy 192.168.1.X:PORT    # Piper/Whisper gateway when ready
-}
-</pre>
-</details>
-    <p class="muted">For services that should stay private, do not create the DNS record and do not add a proxy block.</p>
-  </section>
-
-  <section>
-    <h2>Router/NAT and firewall</h2>
-    <div class="grid">
-      <div>
-        <h3>Router</h3>
-        <pre># Required forwards
-TCP 80  → 192.168.1.4   # Caddy
-TCP 443 → 192.168.1.4   # Caddy
-# Optional (if you want them public)
-UDP 1194 → 192.168.1.X  # OpenVPN
-TCP 25565 → 192.168.1.X # Minecraft
-</pre>
-      </div>
-      <div>
-        <h3>Proxmox/PVE</h3>
-        <pre>pve-firewall status
-pct firewall &lt;CTID&gt; status
-# Allow 80/443 to 301 (webgw) if PVE FW is enabled</pre>
-      </div>
-      <div>
-        <h3>LXC UFW</h3>
-        <pre># on each container
-ufw allow 80,443/tcp          # webgw
-ufw allow 7575/tcp            # homarr (if proxied)
-ufw allow 8096,8920/tcp       # jellyfin (if proxied)
-ufw allow 11434/tcp           # ollama (if proxied)
-ufw allow 1194/udp            # openvpn (if direct)
-</pre>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Ollama + voice plan</h2>
-    <pre>
-Client ─► Caddy ─► /ai (Ollama HTTP 11434)
-              └► /voice (Voice GW: Piper TTS + Whisper STT)
-  - Whisper: transcription endpoint → text
-  - Piper: TTS endpoint ← text
-  - Optional: stream audio via WebRTC or chunked HTTP
-    </pre>
-  </section>
-
-  <section>
-    <h2>Operations</h2>
-    <details><summary>Checks</summary>
-      <pre># LXC reachability
-ping 192.168.1.4
-curl -I http://192.168.1.4
-# External watch (run offsite)
-while true; do date; curl -sS -o /dev/null -w '%{http_code} %{time_total}\n' http://144.91.219.231; sleep 5; done
-</pre>
-    </details>
-    <details><summary>ARP stability</summary>
-      <pre># Reserve DHCP for each LXC by MAC, disable UPnP
-# Optional gratuitous ARP on start for webgw:
-# lxc.hook.post-start = /usr/local/bin/arpfix.sh  (see main stack page)
-</pre>
-    </details>
-  </section>
-
-  <section>
-    <h2>TODO / fill-ins</h2>
-    <ul>
-      <li>Record the LAN IPs for: OpenVPN, Homarr, Minecraft, SOCKS5, Jellyfin, Ollama, Piper/Whisper.</li>
-      <li>Decide which services get public subdomains. Remove everything else from Caddy.</li>
-      <li>Add auth in front of Homarr and admin UIs. Prefer SSO or Caddy basicauth.</li>
-      <li>Optionally add Cloudflare Tunnel to remove dependency on port-forwarding.</li>
-    </ul>
-  </section>
-
-  <footer class="muted">© <span id="y"></span> Logan Lancer • <a href="/projects.html">Back to projects</a></footer>
-</main>
-<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+  <footer>
+    <p>© 2025 Logan Lancer</p>
+  </footer>
 </body>
 </html>
