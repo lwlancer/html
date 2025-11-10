@@ -2,8 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Contact</title>
+  <title>Contact — Logan Lancer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ways to contact Logan Lancer — email, phone, social links, and business inquiries." />
   <link rel="stylesheet" href="style.css">
+  <style>
+    .wrap{max-width:900px;margin:2rem auto;padding:0 1rem}
+    h1{text-align:center;margin-bottom:2rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+    .card{background:var(--card);padding:1rem 1.2rem;border:1px solid rgba(255,255,255,.08);border-radius:12px}
+    .card h2{margin-top:0;font-size:1.1rem}
+    .card a{word-break:break-all}
+    .icon{width:20px;height:20px;vertical-align:-3px;margin-right:4px;opacity:.8}
+    .muted{color:#9aa4b2;font-size:.95rem}
+    footer{text-align:center;margin:3rem 0 1rem;color:#9aa4b2}
+  </style>
 </head>
 <body>
 <nav>
@@ -11,14 +24,64 @@
   <a href="projects.html">Projects</a>
   <a href="files.html">Files</a>
   <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
+  <a href="contact.html" aria-current="page">Contact</a>
 </nav>
-<main>
+
+<main class="wrap">
   <h1>Contact</h1>
-  <p>Email: <a href="mailto:llancer@purdue.edu">llancer@purdue.edu</a></p>
-  <p>GitHub (Including this site!): <a href="https://github.com/lwlancer">github.com/lwlancer</a></p>
-  <p>LinkedIn: <a href="https://linkedin.com/in/lwlancer">linkedin.com/in/lwlancer</a></p>
+  <p class="muted" style="text-align:center;margin-top:-1rem;margin-bottom:2rem">
+    Reach me for collaboration, professional roles, or questions about any build or repo.
+  </p>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Primary Emails</h2>
+      <p><a href="mailto:llancer@purdue.edu">llancer@purdue.edu</a></p>
+      <p><a href="mailto:lwlancer@comcast.net">lwlancer@comcast.net</a></p>
+      <p class="muted">Academic or personal correspondence</p>
+    </div>
+
+    <div class="card">
+      <h2>Talos Property Services, LLC</h2>
+      <p><a href="https://propertymanage.biz/150southmain">150southmain.com</a></p>
+      <p><a href="mailto:TalosPS@outlook.com">TalosPS@outlook.com</a></p>
+      <p><a href="https://instagram.com/TalosProperties">@TalosProperties on instagram</a></p>
+      <p>If you were looking for my property management company, please click here.</p>
+    </div>
+
+    <div class="card">
+      <h2>Phone / Messaging</h2>
+      <p><a href="tel:+13175607296">+1 (317) 560 - 7296</a></p>
+      <p class="muted">Call or text if you prefer, although I do screen unknown numbers.</p>
+    </div>
+
+    <div class="card">
+      <h2>GitHub</h2>
+      <p><a href="https://github.com/lwlancer">github.com/lwlancer</a></p>
+      <p class="muted">Source code for this site! And other projects</p>
+    </div>
+
+    <div class="card">
+      <h2>LinkedIn</h2>
+      <p><a href="https://linkedin.com/in/lwlancer">linkedin.com/in/lwlancer</a></p>
+      <p class="muted">Professional network and résumé</p>
+    </div>
+
+    <div class="card">
+      <h2>Instagram</h2>
+      <p><a href="https://instagram.com/loganlancer">@loganlancer</a></p>
+      <p class="muted">If you'd like to follow me</p>
+    </div>
+
+    <div class="card">
+      <h2>Twitter / X</h2>
+      <p><a href="https://x.com/loganlancer">@loganalancer</a></p>
+      <p class="muted">Don't actually use this much anymore</p>
+    </div>
+  </div>
 </main>
+
 <footer>© <span id="y"></span> Logan Lancer</footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
