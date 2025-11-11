@@ -1,9 +1,97 @@
 :root { --bg:#0b0d10; --fg:#e6e6e6; --acc:#6aa6ff; --card:#12151a; }
-body { margin:0; font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
-       background:var(--bg); color:var(--fg); }
+
+body {
+  margin:0;
+  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
+  background:var(--bg);
+  color:var(--fg);
+}
+
 a { color:var(--acc); text-decoration:none; }
 a:hover { text-decoration:underline; }
+
 nav { background:var(--card); padding:0.5rem 1rem; }
 nav a { margin-right:1rem; }
+
 main { max-width:900px; margin:2rem auto; padding:0 1rem; }
+
 footer { text-align:center; font-size:14px; padding:1rem; color:#888; }
+
+/* ------------------------------------------------------------------ */
+/* Accessibility and motion preferences                               */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hover effects only on devices that actually hover (no mobile)      */
+/* ------------------------------------------------------------------ */
+@media (hover: hover) and (pointer: fine) {
+
+  /* Card lift (used on home grid and project cards) */
+  .card {
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    will-change: transform;
+    border: 1px solid rgba(255,255,255,.08);
+    background: var(--card);
+    border-radius: 14px;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,.22);
+    box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  }
+
+  /* Nav underline animation (override default underline for nav only) */
+  nav a { position: relative; text-decoration: none; }
+  nav a:hover { text-decoration: none; } /* prevent double underline */
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .12s ease;
+    opacity: .85;
+  }
+  nav a:hover::after { transform: scaleX(1); }
+
+  /* Buttons (hero CTAs) */
+  .btn {
+    display:inline-block;
+    padding:.6rem .9rem;
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:10px;
+    transition: transform .12s ease, border-color .12s ease, background-color .12s ease;
+  }
+  .btn:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.28); }
+
+  /* Icons inside cards */
+  .card .icon { transition: transform .12s ease, opacity .12s ease; opacity:.9; }
+  .card:hover .icon { transform: translateX(2px); opacity:1; }
+
+  /* Quick-link pills */
+  .mini a {
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:999px;
+    padding:.35rem .6rem;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .mini a:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,.25);
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  }
+}
+
+/* Keyboard focus styles */
+.card:focus-visible,
+nav a:focus-visible,
+.btn:focus-visible,
+.mini a:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
