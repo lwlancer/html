@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Audio Visualizer — Logan Lancer</title>
+  <meta name="description" content="Analog-driven audio visualizer project overview." />
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .wrap{max-width:960px;margin:2rem auto;padding:0 1rem}
+    .muted{color:#9aa4b2}
+    pre{background:var(--card);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.08);overflow:auto}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    figure{margin:0;background:var(--card);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+    figure img{width:100%;height:auto;border-radius:8px}
+    figcaption{font-size:12px;color:#9aa4b2;margin-top:6px}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/index.html">Home</a>
+  <a href="/projects.html">Projects</a>
+  <a href="/files.html">Files</a>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+</nav>
+
+<main class="wrap">
+  <h1>Audio Visualizer</h1>
+  <p class="muted">A fully analog multi-channel visualizer: five frequency bands, ten amplitude levels, no digital processing. This page will document the circuit, filters, power design, and enclosure once construction is complete.</p>
+
+  <section>
+    <h2>Status</h2>
+    <ul>
+      <li>Concept proven on breadboard — individual band-pass filters respond correctly.</li>
+      <li>Next step: PCB layout and enclosure design.</li>
+      <li>Target: modular analog bars driven by LM3915 or discrete comparator ladders.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Planned features</h2>
+    <ul>
+      <li>Five fixed frequency bands spanning 63 Hz → 8 kHz.</li>
+      <li>Adjustable input gain, per-band response shaping, and color lighting.</li>
+      <li>All-analog processing path — no microcontroller required.</li>
+      <li>External 12 V DC input with isolated logic and lighting rails.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Gallery</h2>
+    <div class="grid">
+      <figure>
+        <img src="https://assets.loganlancer.com/projects/visualizer/img/proto-breadboard.webp" alt="Audio visualizer breadboard prototype">
+        <figcaption>Breadboard test of f
