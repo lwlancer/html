@@ -2,23 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>About</title>
+  <title>About — Logan Lancer</title>
+  <meta name="description" content="About Logan Lancer — electrical engineering technology student, builder, and homelab enthusiast." />
   <link rel="stylesheet" href="style.css">
+  <style>
+    .wrap{max-width:850px;margin:2rem auto;padding:0 1rem}
+    h1{text-align:center;margin-bottom:1.5rem}
+    p{line-height:1.55}
+    .muted{color:#9aa4b2}
+    figure{margin:1rem 0;text-align:center}
+    figure img{max-width:100%;border-radius:10px}
+    section{margin-bottom:2rem}
+  </style>
 </head>
 <body>
 <nav>
   <a href="index.html">Home</a>
   <a href="projects.html">Projects</a>
   <a href="files.html">Files</a>
-  <a href="about.html">About</a>
+  <a href="about.html" aria-current="page">About</a>
   <a href="contact.html">Contact</a>
 </nav>
-<main>
-  <h1>About</h1>
-  <p>I’m Logan Lancer, an engineer focused on analog electronic embedded systems.  
-  This site summarizes my independent work and prototypes.</p>
+
+<main class="wrap">
+  <h1>About Me</h1>
+
+  <section>
+    <p>I’m an electrical engineering technology student at Purdue University’s main campus, graduating in December 2026. Before transferring into Engineering Technology, I spent two years in Electrical and Computer Engineering, which gave me a strong foundation in circuit theory, digital systems, and programming alongside hands-on lab work.</p>
+
+    <p>These days my focus is on analog systems, power distribution, diagnostics, and practical problem-solving with real hardware. I’m most comfortable behind an oscilloscope with a circuit on the bench, but I also have working experience in CAD and simulation tools such as AutoCAD, Fusion 360, Eagle, Multisim, and SPICE.</p>
+  </section>
+
+  <section>
+    <h2>Projects and Skills</h2>
+    <p>Nearly everything on this site was built from scratch as a personal learning project. My <a href="projects.html">projects page</a> highlights work that combines analog and digital design, from laser systems to embedded controllers and audio visualizers. I enjoy the challenge of creating complete working hardware and software stacks rather than stopping at theory.</p>
+
+    <p>My homelab is one of my proudest accomplishments: a multi-node Proxmox cluster running a full self-hosted service stack including a local large-language-model instance, all powered by reclaimed hardware. Building it entirely from spare parts and open-source tools taught me more about networking, systems administration, and distributed design than any class could.</p>
+  </section>
+
+  <section>
+    <h2>Motivation</h2>
+    <p>I became an engineer because I love making things work—whether that’s troubleshooting a power circuit or assembling a new machine from scrap. The more I learn, the more tools I gain to create. My long-term goal is to keep turning ideas into functioning devices and eventually run projects on a larger scale, both professionally and independently.</p>
+  </section>
+
+  <section>
+    <h2>Beyond Engineering</h2>
+    <p>I live on the north side of Indianapolis. Outside the lab, I’m into weightlifting, hiking, camping, cooking (I even wrote a cookbook), and leatherworking. Those hands-on hobbies keep me grounded and creative, and often influence the mechanical side of my engineering projects.</p>
+  </section>
+
+  <section>
+    <h2>Looking Ahead</h2>
+    <p>Right now I’m seeking opportunities where I can keep building—roles that value practical problem-solving, electronics expertise, and a willingness to learn quickly. I want to work with people who make real things, then come home and build more for fun.</p>
+  </section>
+
+  <footer>© <span id="y"></span> Logan Lancer • <a href="projects.html">See my projects</a></footer>
 </main>
-<footer>© <span id="y"></span> Logan Lancer</footer>
+
 <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
 </html>
