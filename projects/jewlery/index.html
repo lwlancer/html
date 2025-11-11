@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Jewelry & Metal Casting — Logan Lancer</title>
+  <meta name="description" content="Home casting projects, tools, process notes, and results." />
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .wrap{max-width:960px;margin:2rem auto;padding:0 1rem}
+    .muted{color:#9aa4b2}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    figure{margin:0;background:var(--card);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+    figure img{width:100%;height:auto;border-radius:8px}
+    figcaption{font-size:12px;color:#9aa4b2;margin-top:6px}
+    pre,code{font-family:ui-monospace,Menlo,monospace}
+    pre{background:var(--card);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.08);overflow:auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.5rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/index.html">Home</a>
+  <a href="/projects.html">Projects</a>
+  <a href="/files.html">Files</a>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+</nav>
+
+<main class="wrap">
+  <h1>Jewelry & Metal Casting</h1>
+  <p class="muted">Practical home casting: simple tools, controlled heat, clean pours, and usable results. This page will expand with patterns, molds, and settings work.</p>
+
+  <section>
+    <h2>Completed work</h2>
+    <ul>
+      <li>Aluminum test coupons to validate mold flow and surface finish.</li>
+      <li>Cast aluminum ring prototypes to prove workflow before precious metals.</li>
+      <li>Chain mail project (assembled links, finishing and fit-up).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Process overview</h2>
+    <pre>
+Pattern → Mold prep → Preheat → Melt & degas → Pour → Shakeout → Cut/Grind → Finish/Polish
+    </pre>
+    <table>
+      <thead><tr><th>Stage</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Furnace/heat</td><td>Home-built charcoal kiln verified for Al; temp measured, safe handling PPE.</td></tr>
+        <tr><td>Molds</td><td>Simple sand molds for rings and coupons; working toward multi-part patterns.</td></tr>
+        <tr><td>Alloys</td><td>Aluminum scrap for practice; precious metals planned once fit/finish are reliable.</td></tr>
+        <tr><td>Finishing</td><td>Sawing, deburring, file work, sanding grits, polish; ring sizing tests ongoing.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Tools & materials</h2>
+    <ul>
+      <li>Charcoal kiln, crucible, tongs, IR thermometer, fire-safe workspace.</li>
+      <li>Basic bench tools: vise, files, saws, sandpaper, polishing compound.</li>
+      <li>Metrology: calipers, ring sizer, simple gauges.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Gallery</h2>
+    <div class="grid">
+      <!-- Replace src with your asset subdomain or local path -->
+      <figure>
+        <img src="https://assets.loganlancer.com/projects/jewelry/img/chainmail-01.webp" alt="Chain mail assembly close-up">
+        <figcaption>Chain mail — link geometry and finish test.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://assets.loganlancer.com/projects/jewelry/img/al-ring-proto.webp" alt="Cast aluminum ring prototype">
+        <figcaption>Aluminum ring prototype — sizing and polish experiment.</figcaption>
+      </figure>
+    </div>
+    <p class="muted">More photos to come. Assets are optimized as WebP and served from the <code>assets.loganlancer.com</code> bucket.</p>
+  </section>
+
+  <section>
+    <h2>Plans</h2>
+    <ul>
+      <li>Refine ring molds and add basic settings and engraving.</li>
+      <li>Transition to precious metals once surface finish and shrinkage are dialed in.</li>
+      <li>Gemstone synthesis experiments (rubies, sapphires, opal) planned; will move to a separate page when results mature.</li>
+    </ul>
+  </section>
+
+  <footer class="muted">© <span id="y"></span> Logan Lancer • <a href="/projects.html">Back to projects</a></footer>
+</main>
+
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>
