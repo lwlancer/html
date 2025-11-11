@@ -2,26 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Projects</title>
+  <title>Projects — Logan Lancer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css">
+  <style>
+    .wrap{max-width:1100px;margin:2rem auto;padding:0 1rem}
+    h1{margin-bottom:.5rem}
+    .muted{color:#9aa4b2;margin:0 0 1.25rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .card{display:block;padding:14px;border-radius:14px;background:var(--card);border:1px solid rgba(255,255,255,.08)}
+    .card h3{margin:.6rem 0 .25rem;font-size:1.05rem}
+    .card p{margin:0;color:#9aa4b2;font-size:.95rem}
+    .icon,.thumb{width:48px;height:48px;opacity:.9;border-radius:8px;object-fit:cover}
+  </style>
 </head>
 <body>
 <nav>
   <a href="index.html">Home</a>
-  <a href="projects.html">Projects</a>
+  <a href="projects.html" aria-current="page">Projects</a>
   <a href="files.html">Files</a>
   <a href="about.html">About</a>
   <a href="contact.html">Contact</a>
 </nav>
-<main>
+
+<main class="wrap">
   <h1>Projects</h1>
-  <ul>
-    <li><a href="/projects/laser-cutter/index.html">DIY Laser Cutter Conversion</a></li>
-    <li><a href="/projects/network-stack/index.html">Proxmox Cluster & Network Stack</a></li>
-    <li><a href="/projects/jewelry.html">Homemade Jewelry and Metal Casting</a></li>
-    <li><a href="/projects/electric-motorcycle.html">Electric Motorcycle Build</a></li>
-  </ul>
+  <p class="muted">Select a project to open the full build log, photos, and documentation.</p>
+
+  <div class="grid">
+
+    <a class="card" href="/projects/laser-cutter.html">
+      <!-- replace SVG with a thumbnail when ready:
+      <img class="thumb" src="https://assets.loganlancer.com/projects/laser/img/01-frame.webp" alt="">
+      -->
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M3 12h9M12 12l8-8M12 12l8 8M12 12l-8-8M12 12l-8 8" stroke-width="1.5"/>
+        <circle cx="12" cy="12" r="2" stroke-width="1.5"/>
+      </svg>
+      <h3>DIY Laser Cutter Conversion</h3>
+      <p>Voxelab Aquila X2 → 450 nm diode. Power, PWM conditioning, firmware, results.</p>
+    </a>
+
+    <a class="card" href="/projects/network-stack/index.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="3" width="7" height="7" rx="1.5" stroke-width="1.5"/>
+        <rect x="14" y="3" width="7" height="7" rx="1.5" stroke-width="1.5"/>
+        <rect x="8.5" y="14" width="7" height="7" rx="1.5" stroke-width="1.5"/>
+        <path d="M6.5 10v2.5h11V10" stroke-width="1.5"/>
+      </svg>
+      <h3>Proxmox Cluster & Network Stack</h3>
+      <p>Arrakis datacenter: Cloudflare Tunnel → Apache, VPN, LLM, media, services.</p>
+    </a>
+
+    <a class="card" href="/projects/jewelry.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <ellipse cx="12" cy="16" rx="7" ry="4.5" stroke-width="1.5"/>
+        <path d="M9 8l3-3 3 3" stroke-width="1.5"/>
+      </svg>
+      <h3>Homemade Jewelry & Metal Casting</h3>
+      <p>Casting, homebuilt gemstones, fixtures, settings, and finishes.</p>
+    </a>
+
+    <a class="card" href="/projects/electric-motorcycle.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="6" cy="16" r="3.5" stroke-width="1.5"/>
+        <circle cx="18" cy="16" r="3.5" stroke-width="1.5"/>
+        <path d="M9.5 16h5M12 8h5l2 4" stroke-width="1.5"/>
+      </svg>
+      <h3>Electric Motorcycle Build</h3>
+      <p>Design study targeting 100 mi range and 100 mph class hardware.</p>
+    </a>
+
+  </div>
 </main>
+
 <footer>© <span id="y"></span> Logan Lancer</footer>
 <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
 </body>
