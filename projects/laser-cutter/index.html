@@ -90,7 +90,7 @@
       </div>
       <figure>
         <img src="https://assets.loganlancer.com/projects/laser/img/IMG_0105.webp" alt="Oscilloscope capture of board PWM vs conditioned TTL">
-        <figcaption>Scope: raw board PWM vs conditioned TTL. Screenshots to be uploaded.</figcaption>
+        <figcaption>Scope: buck output vs. raw PWM</figcaption>
       </figure>
     </div>
     <p class="muted">Docs will include a full schematic and BOM. See <a href="docs/wiring.md">wiring.md</a> and <a href="docs/bom.csv">bom.csv</a>.</p>
@@ -100,9 +100,9 @@
     <h2>Firmware</h2>
     <ul>
       <li>Laser-appropriate Voxelab conversion firmware flashed for the H2 MCU.</li>
-      <li>Repository has since disappeared; build notes will be recorded here.</li>
-      <li>Limitation: PWM base frequency too low for grayscale; dithering suffers.</li>
-      <li>Planned remediation: replace controller board with a higher-freq PWM output.</li>
+      <li>I reflashed the board using a github repo that has since disappeared.</li>
+      <li>The PWM base frequency is too low for grayscale; dithering suffers.</li>
+      <li>I intend to replace the controller board with a higher-freq PWM output, simultaneously solving my firmware issue.</li>
     </ul>
   </section>
 
@@ -111,15 +111,15 @@
     <div class="grid">
       <figure>
         <img src="https://assets.loganlancer.com/projects/laser/img/IMG_0106.webp" alt="First test cuts">
-        <figcaption>First light: hand-guided cuts to prove optics and power.</figcaption>
+        <figcaption>First light: hand-guided cuts to dial in optic focus and cutting power.</figcaption>
       </figure>
       <figure>
         <img src="https://assets.loganlancer.com/projects/laser/img/IMG_0300.webp" alt="Touchmark tests">
-        <figcaption>Touchmark on wood and leather to dial S and F.</figcaption>
+        <figcaption>Prepping for first CNC cuts.</figcaption>
       </figure>
       <figure>
         <img src="https://assets.loganlancer.com/projects/laser/img/IMG_0124.webp" alt="Leather coasters">
-        <figcaption>Leather coasters with initials. Sealed for waterproofing.</figcaption>
+        <figcaption>CNC control confirmed while demonstrating to a friend.</figcaption>
       </figure>
     </div>
     <p>Cutting and solid-line engraving are reliable. Photo-grade engraving pending controller change.</p>
@@ -130,7 +130,7 @@
     <ul>
       <li>Eyewear: Laservision USA F29.P5P18.5000, OD +8 @ 466 nm.</li>
       <li>Wooden cabinet enclosure; interior black, exterior blue; external power interrupt with LED enable indicator.</li>
-      <li>Accurate danger labeling. Interlocks and e-stop planned with the board swap.</li>
+      <li>Accurate danger labeling. External kill-switch installed in series with laser power supply.</li>
       <li>HEPA scrubber adjacent. Air-assist and dedicated exhaust are planned.</li>
     </ul>
   </section>
@@ -153,9 +153,8 @@
     <h2>Next steps</h2>
     <ol>
       <li>Select and install a modern controller with higher PWM base frequency.</li>
-      <li>Add interlocks, keyed switch, e-stop, and air-assist plumbing.</li>
-      <li>Publish scope captures, schematic, and finalized RC values.</li>
-      <li>Post engraving test images with settings tables.</li>
+      <li>Add air-assist plumbing.</li>
+      <li>Post settings tables.</li>
     </ol>
   </section>
 
