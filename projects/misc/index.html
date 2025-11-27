@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Miscellaneous Projects — Logan Lancer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .wrap{max-width:900px;margin:2rem auto;padding:0 1rem}
+    .muted{color:#9aa4b2}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:1rem}
+    figure{background:var(--card);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+    figure img{width:100%;height:auto;border-radius:8px}
+    figcaption{font-size:12px;margin-top:6px;color:#9aa4b2}
+    h2{margin-top:2.5rem}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html">Home</a>
+  <a href="/projects.html" aria-current="page">Projects</a>
+  <a href="/files.html">Files</a>
+  <a href="/about.html">About</a>
+  <a href="/contact.html">Contact</a>
+</nav>
+
+<main class="wrap">
+  <h1>Miscellaneous Projects</h1>
+  <p class="muted">Smaller builds, utilities, tools, and experiments that don’t warrant a full page.</p>
+
+  <!-- Project 1: Digital Debug Board -->
+  <section>
+    <h2>Digital Debug & Input Test Board</h2>
+    <p>
+      A compact perfboard tool built for quick debugging of small digital circuits.  
+      It includes Schmitt-trigger hex inverters, debounced pushbuttons, toggle switches, 
+      indicator LEDs, and JST headers for clean I/O breakout.  
+      The board lets me probe, stimulate, and verify digital logic without repeatedly 
+      breadboarding test inputs or wiring loose switches.
+    </p>
+
+    <div class="grid">
+      <figure>
+        <img src="https://assets.loganlancer.com/projects/IMG_1056.webp" 
+             alt="Top side of the digital debug board">
+        <figcaption>Top side: inverters, debouncing caps, pull-ups, and indicator LEDs.</figcaption>
+      </figure>
+
+      <figure>
+        <img src="https://assets.loganlancer.com/projects/IMG_1058.webp" 
+             alt="Bottom wiring harness of the digital debug board">
+        <figcaption>Bottom side: clean wiring harnesses for buttons and switches.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>© <span id="y"></span> Logan Lancer</footer>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>
