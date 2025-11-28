@@ -9,8 +9,10 @@
     .wrap{max-width:900px;margin:2rem auto;padding:0 1rem}
     .muted{color:#9aa4b2}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:1rem}
+    .grid-small{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:1rem}
     figure{background:var(--card);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
-    figure img{width:100%;height:auto;border-radius:8px}
+    figure img{width:100%;height:auto;border-radius:8px;display:block}
+    .grid-small figure img{max-height:180px;object-fit:cover}
     figcaption{font-size:12px;margin-top:6px;color:#9aa4b2}
     h2{margin-top:2.5rem}
   </style>
@@ -33,28 +35,28 @@
   <section>
     <h2>Digital Debug & Input Test Board</h2>
     <p>
-      A compact perfboard tool built for quick debugging of small digital circuits.  
-      It includes Schmitt-trigger hex inverters, debounced pushbuttons, toggle switches, 
-      indicator LEDs, and JST headers for clean I/O breakout.  
-      The board lets me probe, stimulate, and verify digital logic without repeatedly 
+      A compact perfboard tool built for quick debugging of small digital circuits.
+      It includes Schmitt-trigger hex inverters, debounced pushbuttons, toggle switches,
+      indicator LEDs, and JST headers for clean I/O breakout.
+      The board lets me probe, stimulate, and verify digital logic without repeatedly
       breadboarding test inputs or wiring loose switches.
     </p>
 
     <div class="grid">
       <figure>
-        <img src="https://assets.loganlancer.com/projects/IMG_1056.webp" 
+        <img src="https://assets.loganlancer.com/projects/IMG_1056.webp"
              alt="Top side of the digital debug board">
         <figcaption>Top side: inverters, debouncing caps, pull-ups, and indicator LEDs.</figcaption>
       </figure>
 
       <figure>
-        <img src="https://assets.loganlancer.com/projects/IMG_1058.webp" 
+        <img src="https://assets.loganlancer.com/projects/IMG_1058.webp"
              alt="Bottom wiring harness of the digital debug board">
         <figcaption>Bottom side: clean wiring harnesses for buttons and switches.</figcaption>
       </figure>
     </div>
   </section>
-  
+
   <!-- Project 2: Cyanotype Photography & Blueprints -->
   <section>
     <h2>Cyanotype Photography & Blueprints</h2>
@@ -86,12 +88,12 @@
 
       <figure>
         <img src="https://assets.loganlancer.com/projects/IMG_0340.webp"
-             alt="Array of several cyanotype prints laid out to dry">
+             alt="Several cyanotype prints laid out to dry">
         <figcaption>Multiple finished prints laid out together as a small series.</figcaption>
       </figure>
     </div>
   </section>
-  
+
   <!-- Project 3: Laser Cutter Enclosure Cabinet -->
   <section>
     <h2>Laser Cutter Enclosure Cabinet</h2>
@@ -100,8 +102,8 @@
       isn’t my finest piece of carpentry, but it does what matters: it contains the beam and the
       smoke. The lid uses OD7+ laser safety glass for viewing, and the cabinet is built to be
       nearly airtight so it can support proper ventilation once I tie it into the HEPA scrubber
-      next to the machine. Given no light escapes and the suction on the scrubber is incredibly 
-      strong, I'm very happy with it.
+      next to the machine. Given no light escapes and the suction on the scrubber is incredibly
+      strong, I’m very happy with it.
     </p>
 
     <div class="grid-small">
@@ -110,20 +112,23 @@
              alt="Laser cutter enclosure cabinet with viewing window">
         <figcaption>Cabinet exterior with OD7+ viewing glass fitted to the lid.</figcaption>
       </figure>
+
       <figure>
         <img src="https://assets.loganlancer.com/projects/IMG_0309.webp"
-             alt="Interior of laser cutter enclosure showing the machine inside">
-        <figcaption>Custom exterior kil switch. Laser power supply is directly cut when off.</figcaption>
+             alt="Kill switch and power wiring on the laser cutter cabinet">
+        <figcaption>External kill switch directly interrupting the laser power supply.</figcaption>
       </figure>
+
       <figure>
         <img src="https://assets.loganlancer.com/projects/IMG_0287.webp"
-             alt="Interior of laser cutter enclosure showing the machine inside">
-        <figcaption>Paint on the dining room table. Don't tell my RA.</figcaption>
+             alt="Painting the cabinet panels">
+        <figcaption>Painting panels on the dining room table. Don’t tell my RA.</figcaption>
       </figure>
+
       <figure>
         <img src="https://assets.loganlancer.com/projects/IMG_0308.webp"
-             alt="Interior of laser cutter enclosure showing the machine inside">
-        <figcaption>Finished product with custom safety stickers.</figcaption>
+             alt="Finished laser cutter enclosure with safety labels">
+        <figcaption>Finished enclosure with custom safety labels applied.</figcaption>
       </figure>
     </div>
   </section>
@@ -134,10 +139,9 @@
     <p>
       To support the silversmithing work, I built a jeweler’s ball vise using mostly 3D-printed
       parts filled with cement for mass and stability. The design is based on Chris Borge’s
-      excellent tutorial on YouTube, with several of his STL files remixed to fit my tools and
-      preferred workholding layouts. The result is a heavy, smooth-rotating vise that gives me
-      precise control for engraving, filing, and stone setting without paying commercial ball-vise
-      prices.
+      tutorial on YouTube, with several of his STL files remixed to fit my tools and preferred
+      workholding layouts. The result is a heavy, smooth-rotating vise that gives me precise control
+      for engraving, filing, and stone setting without paying commercial ball-vise prices.
     </p>
 
     <div class="grid-small">
