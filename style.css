@@ -1,48 +1,81 @@
-:root { --bg:#0b0d10; --fg:#e6e6e6; --acc:#6aa6ff; --card:#12151a; }
+:root {
+  --bg:#0b0d10;
+  --fg:#e6e6e6;
+  --acc:#6aa6ff;
+  --card:#12151a;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base layout                                                        */
+/* ------------------------------------------------------------------ */
 
 body {
   margin:0;
+  /* space so fixed nav doesn’t cover the top of the page */
+  padding-top:3rem;
   font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
   background:var(--bg);
   color:var(--fg);
 }
 
-a { color:var(--acc); text-decoration:none; }
-a:hover { text-decoration:underline; }
+a {
+  color:var(--acc);
+  text-decoration:none;
+}
+a:hover {
+  text-decoration:underline;
+}
 
 /* ------------------------------------------------------------------ */
-/* Sticky translucent navbar                                          */
+/* Fixed translucent navbar                                           */
 /* ------------------------------------------------------------------ */
 
 nav {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  display: flex;
-  align-items: center;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:999;
 
-  /* Transparency + subtle blur */
-  background: rgba(18, 21, 26, 0.60);   /* var(--card) with opacity */
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  display:flex;
+  align-items:center;
 
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  /* glassy background */
+  background:rgba(18,21,26,0.78); /* var(--card) with opacity */
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  padding:0.5rem 1rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
 }
 
 nav a {
-  margin-right: 1rem;
-  padding: .25rem 0;
-  font-weight: 500;
+  margin-right:1rem;
+  padding:.25rem 0;
+  font-weight:500;
 }
 
-main { max-width:900px; margin:2rem auto; padding:0 1rem; }
+/* ------------------------------------------------------------------ */
+/* Main content + footer                                              */
+/* ------------------------------------------------------------------ */
 
-footer { text-align:center; font-size:14px; padding:1rem; color:#888; }
+main {
+  max-width:900px;
+  margin:2rem auto;
+  padding:0 1rem;
+}
+
+footer {
+  text-align:center;
+  font-size:14px;
+  padding:1rem;
+  color:#888;
+}
 
 /* ------------------------------------------------------------------ */
 /* Accessibility and motion preferences                               */
 /* ------------------------------------------------------------------ */
+
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
@@ -50,6 +83,7 @@ footer { text-align:center; font-size:14px; padding:1rem; color:#888; }
 /* ------------------------------------------------------------------ */
 /* Hover effects only on devices that actually hover (no mobile)      */
 /* ------------------------------------------------------------------ */
+
 @media (hover: hover) and (pointer: fine) {
 
   /* Card lift (used on home grid and project cards) */
@@ -90,11 +124,20 @@ footer { text-align:center; font-size:14px; padding:1rem; color:#888; }
     border-radius:10px;
     transition: transform .12s ease, border-color .12s ease, background-color .12s ease;
   }
-  .btn:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.28); }
+  .btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,.28);
+  }
 
   /* Icons inside cards */
-  .card .icon { transition: transform .12s ease, opacity .12s ease; opacity:.9; }
-  .card:hover .icon { transform: translateX(2px); opacity:1; }
+  .card .icon {
+    transition: transform .12s ease, opacity .12s ease;
+    opacity:.9;
+  }
+  .card:hover .icon {
+    transform: translateX(2px);
+    opacity:1;
+  }
 
   /* Quick-link pills */
   .mini a {
@@ -110,7 +153,10 @@ footer { text-align:center; font-size:14px; padding:1rem; color:#888; }
   }
 }
 
-/* Keyboard focus styles */
+/* ------------------------------------------------------------------ */
+/* Keyboard focus styles                                              */
+/* ------------------------------------------------------------------ */
+
 .card:focus-visible,
 nav a:focus-visible,
 .btn:focus-visible,
